@@ -13,6 +13,11 @@ module.exports.createCampground = async (req, res, next) => {
   // ValidateCampground middleware will check for errors.
   // Adding new campground:
   const campground = new Campground(req.body.campground);
+  // Storing images path and filename to campground.images
+  campground.images = req.files.map((file) => ({
+    url: file.path,
+    filename: file.filename,
+  }));
   // Setting author to currently logged in user:
   campground.author = req.user._id;
   await campground.save();
