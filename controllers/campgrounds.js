@@ -66,6 +66,16 @@ module.exports.editCampground = async (req, res, next) => {
     id,
     req.body.campground
   );
+  // Pushing new images to campground.images array
+  const imgs = req.files.map((file) => ({
+    url: file.path,
+    filename: file.filename,
+  }));
+  console.log(imgs);
+  campground.images.push(...imgs);
+  // saving
+  await campground.save();
+
   req.flash("success", "Successfully updated campground!");
   res.redirect(`/campgrounds/${campground._id}`);
 };
