@@ -16,7 +16,6 @@ imageSchema.virtual("thumbnail").get(function () {
 // Schema = mongoose.Schema aka. Schema is now a shorthand version
 const CampgroundSchema = new Schema({
   title: String,
-  images: [imageSchema],
   price: Number,
   description: String,
   location: String,
@@ -30,6 +29,18 @@ const CampgroundSchema = new Schema({
       ref: "Review",
     },
   ],
+  images: [imageSchema],
+  geometry: {
+    type: {
+      type: String,
+      enum: ["Point"],
+      required: true,
+    },
+    coordinates: {
+      type: [Number], // Array of numbers
+      required: true,
+    },
+  },
 });
 
 //## Campground delete Middleware ##\\

@@ -31,7 +31,7 @@ const seedDB = async function () {
       price, // shorthand price = -> price: price
       images: [
         {
-          url: "https://res.cloudinary.com/dxkybyqyu/image/upload/v1655560510/YelpCamp/cea7cmpndnl8qxlcnh2u.jpg",
+          url: "https://res.cloudinary.com/dxkybyqyu/image/upload/v1655739385/YelpCamp/82e2ae94_otenja.jpg",
           filename: "YelpCamp/cea7cmpndnl8qxlcnh2u",
         },
         {
