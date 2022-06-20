@@ -27,10 +27,6 @@
                     Please provide a location.
                 </div>
             </div>
-            <div class="mb-3">
-                <label class="form-label" for="image">Add Images</label>
-                <input type="file" name="image" id="image" multiple>
-            </div>
             <!-- "aria" is for screen-readers -->
             <div class="mb-3">
                 <label class="form-label" for="price">Campground Price</label>
@@ -58,11 +54,22 @@
                 </div>
             </div>
             <div class="mb-3">
+                <label for="image" class="form-label">Add more Image(s)</label>
+                <input class="form-control" name="image" type="file" id="image" multiple>
+            </div>
+            <div class="mb-3">
                 <button class="btn btn-info">Update Campground</button>
+            </div>
+            <div class="mb-3">
+                <% for(let [index, img] of campground.images.entries()) { %>
+                <img src="<%= img.thumbnail %>" alt="" class="img-thumbnail">
+                <input type="checkbox" name="deleteImages[]" value="<%= img.filename %>" id="image-<%=index%>">
+                <label class="mt-1" for="image-<%=index%>">Delete Image</label>
+                <% } %>
             </div>
         </form>
         <a href="/campgrounds/<%= campground._id %>">Back To Campground</a>
     </div>
 </div>
-
-<!-- Javascript is in the boilerplate -->
+<!-- Javascript is in the
+                    boilerplate -->

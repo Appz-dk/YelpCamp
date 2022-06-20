@@ -1,16 +1,22 @@
+const { func } = require("joi");
 const mongoose = require("mongoose");
 const Review = require("./review");
 const Schema = mongoose.Schema;
 
+// setting up "imageSchema" and a "thumbnail virtual property"
+const imageSchema = new Schema({
+  url: String,
+  filename: String,
+});
+// virtual property
+imageSchema.virtual("thumbnail").get(function () {
+  return this.url.replace("/upload", "/upload/w_200");
+});
+
 // Schema = mongoose.Schema aka. Schema is now a shorthand version
 const CampgroundSchema = new Schema({
   title: String,
-  images: [
-    {
-      url: String,
-      filename: String,
-    },
-  ],
+  images: [imageSchema],
   price: Number,
   description: String,
   location: String,

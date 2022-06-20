@@ -9,6 +9,7 @@ module.exports.campgroundSchema = Joi.object({
     location: Joi.string().required(),
     description: Joi.string().required(),
   }).required(), // last required() is important..
+  deleteImages: Joi.array(), // not required
 });
 
 // Review validation Schema (adding new)
