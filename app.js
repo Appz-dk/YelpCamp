@@ -1,6 +1,7 @@
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
+require("dotenv").config();
 // console.log(process.env.CLOUDINARY_KEY);
 
 const express = require("express");
@@ -49,11 +50,13 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(mongoSanitize());
 // Session and session config
 const sessionConfig = {
+  name: "session", // set to 'hide' the name atleast a little bit in cookies
   secret: "thisShouldBeABetterSercet",
   resave: false,
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
+    // secure: true, // turned off during localhost
     maxAge: 1000 * 60 * 60 * 24 * 7, // one week in miliseconds
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
   },
