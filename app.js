@@ -24,8 +24,12 @@ const userRoutes = require("./routes/users");
 const campgroundRoutes = require("./routes/campgrounds");
 const reviewRoutes = require("./routes/reviews");
 
+// DATABASE + DB URL
+const MongoStore = require("connect-mongo");
+// const dbUrl = process.env.DB_URL;
+const localDB = "mongodb://localhost:27017/yelp-camp";
 // Mongoose
-mongoose.connect("mongodb://localhost:27017/yelp-camp");
+mongoose.connect(localDB);
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection Error:"));
@@ -49,8 +53,20 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 // Mongo-Sanitize
 app.use(mongoSanitize());
+// Session Store in mongoDB setup
+const store = MongoStore.create({
+  mongoUrl: localDB,
+  touchAfter: 24 * 60 * 60, // in seconds (not milisec)
+  crypto: {
+    secret: "thisShouldBeABetterSercet",
+  },
+});
+store.on("error", function (e) {
+  console.log("Session Store Error!", e);
+});
 // Session and session config
 const sessionConfig = {
+  store, // passing in the store above
   name: "session", // set to 'hide' the name atleast a little bit in cookies
   secret: "thisShouldBeABetterSercet",
   resave: false,
@@ -58,8 +74,8 @@ const sessionConfig = {
   cookie: {
     httpOnly: true,
     // secure: true, // turned off during localhost
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
     maxAge: 1000 * 60 * 60 * 24 * 7, // one week in miliseconds
-    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
   },
 };
 app.use(session(sessionConfig));
