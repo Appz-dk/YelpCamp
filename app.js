@@ -1,7 +1,6 @@
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
-// console.log(process.env.CLOUDINARY_KEY);
 
 const express = require("express");
 const path = require("path");
@@ -47,14 +46,14 @@ app.set("views", path.join(__dirname, "views"));
 // ## Middle Ware Section ##
 // body-parser:
 app.use(express.urlencoded({ extended: true })); // to use req.body
-// Method override (Put, Delete etc)
+// Method override (PUT, DELETE requests etc)
 app.use(methodOverride("_method"));
 // Public Directory
 app.use(express.static(path.join(__dirname, "public")));
 // Mongo-Sanitize
 app.use(mongoSanitize());
 // Session Store in mongoDB setup
-const secret = process.env.SECRET || "thisShouldBeABetterSercet";
+const secret = process.env.SESSION_SECRET || "thisShouldBeABetterSercet";
 
 const store = MongoStore.create({
   mongoUrl: dbUrl,
@@ -123,13 +122,7 @@ app.use(
         styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
         workerSrc: ["'self'", "blob:"],
         objectSrc: [],
-        imgSrc: [
-          "'self'",
-          "blob:",
-          "data:",
-          "https://res.cloudinary.com/dxkybyqyu/",
-          "https://images.unsplash.com/",
-        ],
+        imgSrc: ["'self'", "blob:", "data:", "https://res.cloudinary.com/dxkybyqyu/", "https://images.unsplash.com/"],
         fontSrc: ["'self'", ...fontSrcUrls],
         mediaSrc: ["https://res.cloudinary.com/dxkybyqyu/"],
         childSrc: ["blob:"],
@@ -149,6 +142,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // The info in res.locals is available in all routes and all EJS templates!
+// res.locals properties are valid only for the lifetime of the request.
 app.use((req, res, next) => {
   // will be undefined incase of no user logged in
   res.locals.currentUser = req.user;
@@ -174,7 +168,6 @@ app.use("/campgrounds", campgroundRoutes);
 // Review Routes
 app.use("/campgrounds/:id/reviews", reviewRoutes);
 
-//////////////////
 // Page not found
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page Not Found!", 404));

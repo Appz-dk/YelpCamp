@@ -77,16 +77,12 @@ module.exports.editCampground = async (req, res, next) => {
   // Step 1: Checking Premissions Align:
   // ((step 1 Is now done by the middleware 'isAuthor'))
   // Step 2: Updateing campground:
-  const campground = await Campground.findByIdAndUpdate(
-    id,
-    req.body.campground
-  );
+  const campground = await Campground.findByIdAndUpdate(id, req.body.campground);
   // Pushing new images to campground.images array
   const imgs = req.files.map((file) => ({
     url: file.path,
     filename: file.filename,
   }));
-  console.log(imgs);
   campground.images.push(...imgs);
   // saving
   await campground.save();
