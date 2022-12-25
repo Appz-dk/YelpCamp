@@ -21,7 +21,8 @@ In the project directory, you can run:
 ### `npm run start`
 
 Runs the app in development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) by PORT = 3000 default to view the client in the browser.
+Open [http://localhost:3000](http://localhost:3000) to view the client in the browser.
+(PORT = 3000 by default)
 
 ## File structure
 
