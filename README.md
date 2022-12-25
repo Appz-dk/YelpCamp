@@ -6,7 +6,7 @@ This is the final project of a Fullstack Webdeveloper course I've taken - by Col
 This project does not have a mongoDB connection setup. Setup the connection based on the environments sample.
 For the code to run all of the .env.sample has to be fulfilled - some of them have default fallbacks.
 
-While developing the App I've been using a locally mongoDB and later (before Heroku became only paid) I had this App hosted with Heroku.
+While developing the App I've been using a local mongoDB and later (before Heroku became only paid) I had this App hosted with Heroku.
 
 ## Getting Started
 
